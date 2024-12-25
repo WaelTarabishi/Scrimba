@@ -2,7 +2,7 @@
 import bcrypt from "bcrypt";
 import prisma from "../../lib/prisma";
 
-export async function Register({
+export async function RegisterFn({
   email,
   password,
   name,
@@ -18,11 +18,14 @@ export async function Register({
 
   const existingUser = await prisma.user.findUnique({
     where: {
-      email,
+      email: email,
     },
   });
+  console.log(existingUser);
   if (existingUser) {
-    return { error: "Email already in use!" };
+    throw new Error("Email already in use!");
+    // return { error: "Email already in use!" };
+    // console.log
   }
   await prisma.user.create({
     data: {

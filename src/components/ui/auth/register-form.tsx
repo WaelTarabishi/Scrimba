@@ -1,18 +1,54 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useMutation } from "@tanstack/react-query";
+import { RegisterFn } from "../../../../actions/auth/register";
+import { FormEvent } from "react";
+import toast from "react-hot-toast";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const { mutate: Reigster, isPending } = useMutation({
+    mutationKey: ["user-register"],
+    mutationFn: async (data: {
+      email: string;
+      password: string;
+      name: string;
+    }) => RegisterFn(data),
+
+    onSuccess: (succes) => {
+      toast.success("User Created!");
+    },
+    onError: (error) => {
+      // console.log(error.message);
+      toast.error(error.message || "An error occurred during registration");
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    e.preventDefault();
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
+
+    // console.log(email,name ,password)
+    Reigster({ email, name, password });
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -50,10 +86,16 @@ export function RegisterForm({
               </div>
 
               <Button
+                disabled={isPending}
                 type="submit"
                 className="w-full text-white
                font-bold">
-                Login
+                {isPending ? (
+                  <span
+                    className={`loader  inline-block h-[1em] w-[1em] border-[3px] border-white border-t-transparent rounded-full animate-spin`}></span>
+                ) : (
+                  "Register"
+                )}
               </Button>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -90,9 +132,9 @@ export function RegisterForm({
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a href="#" className="underline underline-offset-4">
-                  Sign up
+                 have an account?{" "}
+                <a href="/login" className="underline underline-offset-4">
+                  Login 
                 </a>
               </div>
             </div>
