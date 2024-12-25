@@ -47,3 +47,16 @@ model Account {
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
+
+model Product {
+  id          String   @id @default(cuid())
+  title       String
+  price       Float
+  color       String?
+  size        String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
