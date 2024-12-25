@@ -19,7 +19,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async jwt({ token }) {
       if (!token.sub) return token;
       const user = await GetUserById(token.sub);
+
       if (!user) return token;
+      //@ts-ignore
       token.role = user.role;
       return token;
     },
