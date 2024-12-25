@@ -3,8 +3,8 @@ import React from "react";
 import { currentUserRole } from "../../../../lib/auth";
 
 const AdminPage = async () => {
-  const session = await currentUserRole();
-  return <div>{session}</div>;
+  const usr = await currentUserRole();
+  return <>{usr}</>;
 };
 
 export default AdminPage;
