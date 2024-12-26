@@ -1,16 +1,18 @@
 "use client";
+import { ShoppingCartIcon } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import TShirt from "../../../public/t-shirt.jpg";
-import { ShoppingCartIcon } from "lucide-react";
+import ProductSliderSkeleton from "../product-slider-skeleton";
 interface ApiResponse {
   products?: {
     id: string;
@@ -31,7 +33,7 @@ const ProductsClientComponent = ({ products }: ApiResponse) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  if (!isMounted) return null;
+  if (!isMounted) return <ProductSliderSkeleton />;
   return (
     <div className="container mx-auto px-4 p-5 mt-5 w-full">
       <Swiper
@@ -50,8 +52,10 @@ const ProductsClientComponent = ({ products }: ApiResponse) => {
           products.map((product) => (
             <SwiperSlide
               key={product.id}
-              className="relative group p-2 cursor-pointer">
-              <div className="h-65 flex flex-col bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+              className="relative group p-2  cursor-pointer">
+              <Link
+                href={`/product/${product.id}`}
+                className="h-65 flex flex-col bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
                 <div className="absolute top-4 right-4 z-10">
                   <button className="bg-yellow-500 p-2 rounded-full text-white hover:bg-yellow-600 transition-colors duration-300">
                     <ShoppingCartIcon />
@@ -89,7 +93,7 @@ const ProductsClientComponent = ({ products }: ApiResponse) => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             </SwiperSlide>
           ))}
       </Swiper>

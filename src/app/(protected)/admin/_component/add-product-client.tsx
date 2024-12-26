@@ -20,7 +20,7 @@ const AddProudctComponentClient = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  let category = ["clothes", "accessory"];
+  const category = ["clothes", "accessory"];
   const [selectedCategory, setSelectedCategory] = useState("");
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");

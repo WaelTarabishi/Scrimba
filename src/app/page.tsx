@@ -1,3 +1,4 @@
+import ProductSliderSkeleton from "@/components/product-slider-skeleton";
 import Products from "@/components/products/products-server";
 import { Button, buttonVariants } from "@/components/ui/button";
 import MaxWidthWrapper from "@/lib/max-widht-wrapper";
@@ -48,36 +49,10 @@ export default async function Home() {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="md:px-10  max-w-screen-xl">
         <div className="mt-10 flex flex-col text-center  w-full">
-          <h1 className="text-4xl tracking-tight font-bold text-gray-900 ">
+          <h1 className="text-4xl tracking-tight font-bold text-yellow-500 ">
             Products
           </h1>
-          <Suspense
-            fallback={
-              <div className="container mx-auto px-4 p-5 mt-5 w-full">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                  {[...Array(3)].map((_, index) => (
-                    <div
-                      key={index}
-                      className="relative group p-2 cursor-pointer">
-                      <div className="h-65 flex flex-col bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-                        <div className="absolute top-4 right-4 z-10">
-                          <div className="bg-gray-300 p-2 rounded-full w-10 h-10 animate-pulse"></div>
-                        </div>
-                        <div className="w-full h-48 md:h-64 bg-gray-300 rounded-t-lg animate-pulse"></div>
-                        <div className="flex flex-col p-4">
-                          <div className="h-6 bg-gray-300 rounded w-3/4 mb-2 animate-pulse"></div>
-                          <div className="h-4 bg-gray-300 rounded w-full mb-2 animate-pulse"></div>
-                          <div className="h-4 bg-gray-300 rounded w-2/3 mb-2 animate-pulse"></div>
-                          <div className="flex justify-between items-center mt-auto">
-                            <div className="h-6 bg-gray-300 rounded w-1/4 animate-pulse"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            }>
+          <Suspense fallback={<ProductSliderSkeleton />}>
             <Products />
           </Suspense>
         </div>
