@@ -24,8 +24,34 @@ model User {
   password      String?
   role          UserRole  @default(USER)
   accounts      Account[]
+  orders        Order[]
 
   @@map("users")
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  status    String      @default("pending")
+  total     Float
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  items     OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+
+  @@map("order_items")
 }
 
 model Account {
@@ -54,9 +80,13 @@ model Product {
   price       Float
   color       String?
   size        String?
+  category    String?
   description String?
+  image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  orderItems OrderItem[] // Add this line to relate Product to OrderItem
 
   @@map("products")
 }

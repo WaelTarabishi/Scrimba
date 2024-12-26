@@ -18,6 +18,7 @@ const Navbar = () => {
 
   let isAdmin = false;
 
+  console.log(userRole, "hello");
   if (userRole === "ADMIN") {
     user = true;
     isAdmin = true;
@@ -50,7 +51,7 @@ const Navbar = () => {
                 {/* <div className=" h-8 w-px bg-zinc-200 hidden sm:block" /> */}
                 {isAdmin ? (
                   <Link
-                    href={"/dashboard"}
+                    href={"/admin"}
                     className={cn(
                       buttonVariants({ size: "sm", variant: "ghost" })
                     )}>
