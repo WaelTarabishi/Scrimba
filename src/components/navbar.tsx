@@ -1,16 +1,4 @@
 "use client";
-import MaxWidthWrapper from "@/lib/max-widht-wrapper";
-import { cn } from "@/lib/utils";
-import { ArrowRight, ShoppingCart, X } from "lucide-react";
-import Link from "next/link";
-import { LogoutFn } from "../../actions/auth/logout";
-import { useCurrentUserRole } from "../../hooks/use-current-user-role";
-import { Button, buttonVariants } from "./ui/button";
-import useProductStore from "@/store/products-store";
-import { useMediaQuery } from "react-responsive";
-import { useEffect, useState } from "react";
-import DefaultImage from "../../public/t-shirt.jpg";
-import EmptyCart from "../../public/empty-cart.png";
 import {
   Sheet,
   SheetContent,
@@ -18,13 +6,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
-import { ScrollArea } from "./ui/scroll-area";
+import MaxWidthWrapper from "@/lib/max-widht-wrapper";
+import { cn } from "@/lib/utils";
+import useProductStore from "@/store/products-store";
 import { useQuery } from "@tanstack/react-query";
+import { ArrowRight, ShoppingCart, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { LogoutFn } from "../../actions/auth/logout";
 import { GetUserUserRole } from "../../actions/get-user-role";
+import EmptyCart from "../../public/empty-cart.png";
+import DefaultImage from "../../public/t-shirt.jpg";
+import { Button, buttonVariants } from "./ui/button";
+import { ScrollArea } from "./ui/scroll-area";
 const Navbar = () => {
   const [mounted, setMounted] = useState(false);
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const {
     products,
     removeProduct,
@@ -132,17 +129,13 @@ const Navbar = () => {
                 <SheetContent className="" side={"left"}>
                   {products.length === 0 ? (
                     <div className="flex h-full flex-col items-center justify-center space-y-1">
-                      <div
-                        className="relative mb-4  w-full h-52    text-muted-foreground"
-                        aria-hidden="true">
-                        <Image
-                          src={EmptyCart}
-                          fill
-                          placeholder="blur"
-                          className="object-cover"
-                          alt="empty shopping cart scrimba"
-                        />
-                      </div>
+                      <Image
+                        src={EmptyCart}
+                        placeholder="blur"
+                        className="object-cover inline-flex  h-32"
+                        alt="empty shopping cart scrimba"
+                      />
+
                       <div className="text-xl font-semibold">
                         Your Cart is Empty
                       </div>
@@ -158,13 +151,24 @@ const Navbar = () => {
                     </div>
                   ) : (
                     <div className="flex flex-col h-full">
-                      <SheetTitle>Cart ({products.length})</SheetTitle>
-                      <div className="w-full text-center flex flex-row-reverse items-center justify-center mt-5 text-sm font-medium">
-                        <span className="font-semibold">Total Price</span>{" "}
-                        :&nbsp;
-                        <span>{getTotalPrice().toFixed(2)} </span>
-                        <span className={``}>&nbsp; SYP &nbsp;</span>
+                      <div className="bg-gray-100 rounded-lg p-4 mb-2 mt-4">
+                        <SheetTitle className="text-center text-2xl font-bold mb-2">
+                          Your Cart
+                        </SheetTitle>
+                        <div className="flex justify-between items-center">
+                          <span className="text-lg font-medium">
+                            {products.length}{" "}
+                            {products.length === 1 ? "item" : "items"}
+                          </span>
+                          <div className="flex items-center">
+                            <span className="font-semibold mr-2">Total:</span>
+                            <span className=" font-semibold text-yellow-600">
+                              {getTotalPrice().toFixed(2)} USD
+                            </span>
+                          </div>
+                        </div>
                       </div>
+
                       <ScrollArea
                         className="flex-grow h-[calc(100vh-250px)]"
                         rounded-md>

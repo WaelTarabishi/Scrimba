@@ -52,7 +52,12 @@ export default async function Home() {
           <h1 className="text-4xl tracking-tight font-bold text-yellow-500 ">
             Products
           </h1>
-          <Suspense fallback={<ProductSliderSkeleton />}>
+          <Suspense
+            fallback={
+              <div className="mb-32">
+                <ProductSliderSkeleton />
+              </div>
+            }>
             <Products />
           </Suspense>
         </div>

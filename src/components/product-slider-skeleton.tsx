@@ -7,7 +7,7 @@ const ProductSliderSkeleton = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {[...Array(3)].map((_, index) => (
           <div key={index} className="relative group p-2 cursor-pointer">
-            <div className="h-65 flex flex-col bg-white rounded-lg shadow-lg  overflow-hidden">
+            <div className="h-65 flex flex-col bg-white rounded-lg border  border-gray-100  overflow-hidden">
               <div className="absolute top-4 right-4 z-10">
                 <Skeleton className="w-10 h-10 rounded-full" />
               </div>

@@ -1,8 +1,10 @@
 "use client";
-import { ShoppingCartIcon } from "lucide-react";
+import useProductStore from "@/store/products-store";
+import { CheckCircle, ShoppingCartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-fade";
@@ -13,7 +15,6 @@ import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import TShirt from "../../../public/t-shirt.jpg";
 import ProductSliderSkeleton from "../product-slider-skeleton";
-import useProductStore from "@/store/products-store";
 import { Button } from "../ui/button";
 
 const ProductsClientComponent = ({ products }: ProductInterface) => {
@@ -22,7 +23,12 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  if (!isMounted) return <ProductSliderSkeleton />;
+  if (!isMounted)
+    return (
+      <div className="mb-32">
+        <ProductSliderSkeleton />
+      </div>
+    );
   return (
     <div className="container mx-auto px-4 p-5 mt-5 w-full">
       <Swiper
@@ -33,8 +39,9 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
         autoplay={{ delay: 6000, disableOnInteraction: false }}
         breakpoints={{
           640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 3 },
+          768: { slidesPerView: 2 },
+          1100: { slidesPerView: 2 },
+          1400: { slidesPerView: 3 },
         }}
         className="h-[450px] md:h-[550px]">
         {products &&
@@ -53,6 +60,9 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
                         image: product.image,
                         price: product.price,
                         size: product.size,
+                      });
+                      toast.success("Product added successfully!", {
+                        icon: <CheckCircle className="text-yellow-500" />,
                       });
                     }}
                     size={"icon"}

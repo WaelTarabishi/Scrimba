@@ -7,6 +7,7 @@ import Navbar from "@/components/navbar";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
+import Footer from "@/components/footer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -40,6 +41,7 @@ export default function RootLayout({
           <ReactQueryProvider>
             <Navbar />
             {children}
+            <Footer/>
           </ReactQueryProvider>
           <Toaster />
         </body>

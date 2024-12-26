@@ -6,15 +6,15 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Check, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CheckCircle } from "lucide-react";
 // import useProductStore from "@/store";
-import { cn } from "@/lib/utils";
-import toast from "react-hot-toast";
 import MaxWidthWrapper from "@/lib/max-widht-wrapper";
-import Image from "next/image";
-import TShirt from "../../../../../public/t-shirt.jpg";
+import { cn } from "@/lib/utils";
 import useProductStore from "@/store/products-store";
+import Image from "next/image";
+import toast from "react-hot-toast";
+import TShirt from "../../../../../public/t-shirt.jpg";
 
 interface Product {
   product: {
@@ -126,6 +126,9 @@ const ProductPage = ({ product }: Product) => {
                       image: product.image,
                       price: product.price,
                       size: product.size,
+                    });
+                    toast.success("Product added successfully!", {
+                      icon: <CheckCircle className="text-yellow-500" />,
                     });
                   }}
                   size={"lg"}
