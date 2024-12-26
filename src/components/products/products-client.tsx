@@ -87,21 +87,23 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
                 />
                 <Link
                   href={`/product/${product.id}`}
-                  className="flex flex-col p-4 h-full ">
-                  <h3 className="text-lg font-semibold hover:underline-offset-2 hover:underline text-gray-800 mb-2 line-clamp-1">
-                    {product.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3 truncate">
-                    {product.description}
-                  </p>
-
-                  <div className="mt-auto">
-                    <p className="text-xl font-bold text-yellow-600">
-                      <span className="text-sm font-normal text-gray-500 mr-1">
-                        USD
-                      </span>
-                      {product.price ? product.price.toFixed(2) : 0}
+                  className="flex flex-col h-full p-4 group transition-all duration-300 hover:bg-gray-50 rounded-lg">
+                  <div className="flex-grow">
+                    <h3 className="text-lg font-semibold text-gray-800 group-hover:text-yellow-600 group-hover:underline-offset-4 group-hover:underline transition-colors duration-300 line-clamp-2 mb-2">
+                      {product.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 truncate mb-4">
+                      {product.description}
                     </p>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-auto">
+                    <p className="text-lg font-bold text-yellow-600">
+                      ${product.price ? product.price.toFixed(2) : "0.00"}
+                    </p>
+                    <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                      USD
+                    </span>
                   </div>
                 </Link>
               </div>

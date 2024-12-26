@@ -140,7 +140,7 @@ const Navbar = () => {
                         Your Cart is Empty
                       </div>
                       <Link
-                        href={`//search`}
+                        href={`/`}
                         className={buttonVariants({
                           variant: "link",
                           size: "sm",
@@ -177,7 +177,7 @@ const Navbar = () => {
                             <div className="flex flex-col items-start justify-between gap-4">
                               <div className="flex items-center space-x-4 mt-5">
                                 <Link
-                                  href={`/$product/${product.id}`}
+                                  href={`/product/${product.id}`}
                                   className="relative aspect-square h-36 w-32 min-w-fit overflow-hidden rounded">
                                   <Image
                                     src={DefaultImage}
@@ -239,7 +239,7 @@ const Navbar = () => {
                       </ScrollArea>
                       <SheetFooter className="mt-auto">
                         <Link
-                          href={`/$/check-out`}
+                          href={`/check-out`}
                           className={buttonVariants({
                             className: "w-full mt-4 text-white",
                           })}>

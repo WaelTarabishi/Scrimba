@@ -1,5 +1,3 @@
-import React from "react";
-import { GetStaticProps } from "next";
 import { GetProducts } from "../../../actions/get-products";
 import ProductsClientComponent from "./products-client";
 
