@@ -15,11 +15,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LogoutFn } from "../../actions/auth/logout";
-import { GetUserUserRole } from "../../actions/get-user-role";
+import { GetUserUserRole } from "../../actions/get-user";
 import EmptyCart from "../../public/empty-cart.png";
 import DefaultImage from "../../public/t-shirt.jpg";
 import { Button, buttonVariants } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
+import { useRouter } from "next/navigation";
 const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   const {
@@ -29,9 +30,13 @@ const Navbar = () => {
     decreaseCount,
     getTotalPrice,
   } = useProductStore();
-
+  const router = useRouter();
   const handdlelgoout = () => {
+    router.push("/");
     LogoutFn();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const { data: userRole, isLoading } = useQuery({
@@ -62,8 +67,8 @@ const Navbar = () => {
               </div>
             ) : mounted && isUser ? (
               <>
-                <Link
-                  href={"/login"}
+                <button
+                  onClick={handdlelgoout}
                   className={cn(
                     buttonVariants({
                       size: "sm",
@@ -72,7 +77,7 @@ const Navbar = () => {
                     })
                   )}>
                   Sign out
-                </Link>
+                </button>
                 {mounted && isAdmin ? (
                   <Link
                     href={"/admin"}

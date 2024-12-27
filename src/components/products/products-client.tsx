@@ -46,7 +46,7 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
         className="h-[450px] md:h-[550px]">
         {products &&
           products.map((product) => (
-            <SwiperSlide key={product.id} className="relative group p-2  ">
+            <SwiperSlide key={product.id} className="relative  p-2  ">
               <div className="h-65 flex flex-col bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
                 <div className="absolute top-4 right-4 z-10">
                   <Button
@@ -70,7 +70,7 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
                     <ShoppingCartIcon />
                   </Button>
                 </div>
-                <div className="absolute top-4 left-4 z-10 flex space-x-2">
+                <div className="absolute select-none top-4 left-4 z-10 flex space-x-2">
                   <span className="px-2 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium backdrop-blur-sm">
                     {product.color}
                   </span>

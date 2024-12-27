@@ -2,9 +2,9 @@
 
 import prisma from "../lib/prisma";
 
-export async function GetProducts() {
+export async function GetProducts(take?: number) {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({ take: take ? take : 10 });
     if (products) return products;
     else throw new Error("Error in fetching");
   } catch {

@@ -7,16 +7,23 @@ export default {
   providers: [
     Credentials({
       async authorize(credentials) {
-        //@ts-ignore
-        const user = await getUserByEmail(credentials.email);
-        //!!user.password this when user sigin using github or google
+        console.log(credentials);
+
+        if (!credentials || !credentials.email) {
+          throw new Error("Invalid credentials");
+        }
+
+        const user = await getUserByEmail(credentials.email as string);
+
+        console.log(user, "returned user");
+
         if (!user || !user?.password) return null;
-        const passwordMatch = bcrypt.compare(
-          //@ts-ignore
-          credentials.password,
-          user?.password?.toString()
+
+        const passwordMatch = await bcrypt.compare(
+          credentials?.password as string,
+          user.password.toString()
         );
-        console.log(passwordMatch, "matched passowd");
+
         if (passwordMatch) return user;
 
         return null;

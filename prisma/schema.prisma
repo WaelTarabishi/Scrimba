@@ -15,6 +15,12 @@ enum UserRole {
   USER
 }
 
+enum OrderStatus {
+  fullfilled
+  shipped
+  awaiting_shipment
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -30,16 +36,46 @@ model User {
 }
 
 model Order {
-  id        String      @id @default(cuid())
-  userId    String
-  user      User        @relation(fields: [userId], references: [id])
-  status    String      @default("pending")
-  total     Float
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  items     OrderItem[]
+  id String @id @default(cuid())
+
+  items             OrderItem[]
+  user              User             @relation(fields: [userId], references: [id])
+  userId            String
+  amount            Float
+  isPaid            Boolean          @default(false)
+  status            OrderStatus      @default(awaiting_shipment)
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId String?
+  billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+  billingAddressId  String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
 
   @@map("orders")
+}
+
+model ShippingAddress {
+  id          String  @id @default(cuid())
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  country     String
+  state       String?
+  phoneNumber String?
+  orders      Order[]
+}
+
+model BillingAddress {
+  id          String  @id @default(cuid())
+  name        String
+  street      String
+  city        String
+  postalCode  String
+  country     String
+  state       String?
+  phoneNumber String?
+  orders      Order[]
 }
 
 model OrderItem {

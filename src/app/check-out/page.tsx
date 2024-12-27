@@ -1,4 +1,16 @@
 "use client";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Check, Minus, Plus, X } from "lucide-react";
@@ -7,12 +19,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import useProductStore from "@/store/products-store";
 import DefualtImage from "../../../public/t-shirt.jpg";
+import { useMutation } from "@tanstack/react-query";
+import { createCheckoutSession } from "../../../actions/check-out";
+import { useRouter } from "next/navigation";
+import { useCurrentUser } from "../../../hooks/use-current-user";
+import CkeckoutPageSkeleton from "@/components/check-out-skeleton";
 const CartPage = () => {
   const {
     products,
     removeProduct,
     increaseCount,
     decreaseCount,
+    removeAllProducts,
     getTotalPrice,
   } = useProductStore();
   const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -20,6 +38,27 @@ const CartPage = () => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  const router = useRouter();
+  const user = useCurrentUser();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["payment-mutation"],
+    mutationFn: () => createCheckoutSession(products),
+    onSuccess: ({ url }) => {
+      if (url) {
+        router.push(url);
+      } else throw new Error("Unable to retrieve payment URL.");
+    },
+    onError: () => {
+      console.log("Payment error");
+    },
+  });
+  const handleCheckout = () => {
+    mutate();
+    console.log("handleCheckout");
+  };
+
+  if (!isMounted) return <CkeckoutPageSkeleton />;
 
   return (
     <div className={`bg-white `}>
@@ -149,17 +188,72 @@ const CartPage = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-6">
-              <Button className="w-full  bg-[#635BFF] hover:bg-[#4B45C6] text-white font-medium py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 mr-2"
-                  viewBox="0 0 24 24"
-                  fill="currentColor">
-                  <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z" />
-                </svg>
-                Pay with Stripe
-              </Button>
-            </div>
+            {isMounted && user?.id ? (
+              <div className="mt-6">
+                {isMounted && (
+                  <Button
+                    disabled={isPending}
+                    onClick={handleCheckout}
+                    className="w-full  bg-[#635BFF] hover:bg-[#4B45C6] text-white font-medium py-3 px-4 rounded-md transition duration-200 ease-in-out flex items-center justify-center">
+                    {isPending ? (
+                      <>
+                        <span>Loading</span>
+                        <span className="ml-1.5 flex items-center gap-1">
+                          <span className="animate-flashing w-1 h-1 bg-white rounded-full inline-block" />
+                          <span className="animate-flashing w-1 h-1 bg-white rounded-full inline-block delay-100" />
+                          <span className="animate-flashing w-1 h-1 bg-white rounded-full inline-block delay-200 " />
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <svg
+                          className="w-6 h-6 mr-2"
+                          viewBox="0 0 24 24"
+                          fill="currentColor">
+                          <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z" />
+                        </svg>{" "}
+                        Pay with Stripe
+                      </>
+                    )}
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <div className="mt-6">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button className="w-full text-white">
+                      Proceed to Checkout
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Login Required</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Please login or sign up to continue with your checkout.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="text-white"
+                        onClick={() => {
+                          router.push("/login?origin=check-out");
+                        }}>
+                        Login
+                      </AlertDialogAction>
+                      <AlertDialogAction
+                        className="text-white"
+                        onClick={() => {
+                          router.push("/register?origin=check-out");
+                        }}>
+                        Sign Up
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            )}
           </section>
         </div>
       </div>

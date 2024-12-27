@@ -12,9 +12,7 @@ export async function RegisterFn({
   name: string;
 }) {
   let hashedPassword;
-  if (password) {
-    hashedPassword = await bcrypt.hash(password, 10);
-  }
+  hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -27,12 +25,12 @@ export async function RegisterFn({
     // return { error: "Email already in use!" };
     // console.log
   }
-  await prisma.user.create({
+  const createdUser = await prisma.user.create({
     data: {
       email,
       name,
       password: hashedPassword,
     },
   });
-  return { success: "User Created!" };
+  return createdUser;
 }
