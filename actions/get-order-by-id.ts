@@ -4,8 +4,14 @@ import prisma from "../lib/prisma";
 
 export async function GetOrderById(id: string) {
   try {
-    const existingUser = await prisma.order.findUnique({ where: { id } });
-    return existingUser;
+    const order = await prisma.order.findUnique({
+      where: { id },
+      include: {
+        billingAddress: true,
+        shippingAddress: true,
+      },
+    });
+    return order;
   } catch {
     return null;
   }

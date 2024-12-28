@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LogoutFn } from "../../actions/auth/logout";
-import { GetUserUserRole } from "../../actions/get-user";
+import { GetUserRole } from "../../actions/get-user";
 import EmptyCart from "../../public/empty-cart.png";
 import DefaultImage from "../../public/t-shirt.jpg";
 import { Button, buttonVariants } from "./ui/button";
@@ -41,7 +41,7 @@ const Navbar = () => {
 
   const { data: userRole, isLoading } = useQuery({
     queryKey: ["user-role"],
-    queryFn: () => GetUserUserRole(),
+    queryFn: () => GetUserRole(),
     enabled: mounted,
   });
 
@@ -52,6 +52,7 @@ const Navbar = () => {
     setMounted(true);
   }, []);
 
+  // if (!mounted) return null;
   return (
     <nav className="sticky z-[100] h-14  inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>

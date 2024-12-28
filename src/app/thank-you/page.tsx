@@ -1,5 +1,6 @@
 import React from "react";
 import { GetOrderById } from "../../../actions/get-order-by-id";
+import Order from "@/components/order";
 
 const page = async ({
   searchParams: { orderId },
@@ -7,8 +8,9 @@ const page = async ({
   searchParams: { orderId: string };
 }) => {
   const order = await GetOrderById(orderId);
-  // console.log(order, "order");
-  return <div>page</div>;
+  // console.log(order);
+  //@ts-ignore
+  return <Order order={order} />;
 };
 
 export default page;

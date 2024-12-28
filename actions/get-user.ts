@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 
-export async function GetUserUser() {
+export async function GetUser() {
   try {
     const session = await auth();
     return session?.user;
@@ -10,7 +10,7 @@ export async function GetUserUser() {
     return null;
   }
 }
-export async function GetUserUserRole() {
+export async function GetUserRole() {
   try {
     const session = await auth();
     return session?.user.role;

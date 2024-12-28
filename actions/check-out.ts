@@ -2,10 +2,10 @@
 
 import { Order } from "@prisma/client";
 import prisma from "../lib/prisma";
-import { GetUserUser } from "./get-user";
+import { GetUser } from "./get-user";
 import { stripe } from "../lib/stripe";
 export const createCheckoutSession = async (cartItems: any) => {
-  const user = await GetUserUser();
+  const user = await GetUser();
 
   if (!user) {
     throw new Error("You need to be logged in");
@@ -15,23 +15,15 @@ export const createCheckoutSession = async (cartItems: any) => {
 
   let order: Order | undefined = undefined;
   console.log(user.id);
-  const existingOrder = await prisma.order.findFirst({
-    where: {
-      userId: user.id,
+
+  order = await prisma.order.create({
+    //@ts-ignore
+    data: {
+      amount: totalPrice,
+      userId: user?.id,
     },
   });
-  if (existingOrder) {
-    order = existingOrder;
-  } else {
-    order = await prisma.order.create({
-      //@ts-ignore
-      data: {
-        amount: totalPrice,
-        userId: user?.id,
-      },
-    });
-  }
-
+  console.log(order, "hello order");
   //@ts-ignore
   const line_items = cartItems.map((item) => ({
     price_data: {

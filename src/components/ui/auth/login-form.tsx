@@ -27,11 +27,11 @@ export function LoginForm({
         className: "max-w-max",
       });
       router.push("/");
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 1000);
     },
     onError: (error) => {
       // console.log(error.message);
-      toast.error(error.message || "An error occurred during registration");
+      toast.error("Invalid credentials");
     },
   });
 

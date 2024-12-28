@@ -16,6 +16,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import TShirt from "../../../public/t-shirt.jpg";
 import ProductSliderSkeleton from "../product-slider-skeleton";
 import { Button } from "../ui/button";
+import { ProductInterface } from "@/types";
 
 const ProductsClientComponent = ({ products }: ProductInterface) => {
   const { addProduct } = useProductStore();
