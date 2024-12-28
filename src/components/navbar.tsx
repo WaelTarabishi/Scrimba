@@ -186,14 +186,13 @@ const Navbar = () => {
                                   href={`/product/${product.id}`}
                                   className="relative aspect-square h-36 w-32 min-w-fit overflow-hidden rounded">
                                   <Image
-                                    src={DefaultImage}
+                                    src={product.image!}
                                     alt={
                                       product.title
                                         ? product.title
                                         : "cart product"
                                     }
                                     fill
-                                    placeholder="blur"
                                     className="absolute object-cover"
                                   />
                                 </Link>
@@ -244,7 +243,8 @@ const Navbar = () => {
                         ))}
                       </ScrollArea>
                       <SheetFooter className="mt-auto">
-                        <Link
+                          <Link
+                            
                           href={`/check-out`}
                           className={buttonVariants({
                             className: "w-full mt-4 text-white",

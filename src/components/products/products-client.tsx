@@ -80,11 +80,11 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
                   </span>
                 </div>
                 <Image
-                  src={TShirt}
+                  src={product.image ? product.image : TShirt }
                   width={500}
                   height={500}
                   alt={product.title ? product.title : "product"}
-                  className="object-cover w-full h-48 md:h-64 rounded-t-lg"
+                  className="object-cover w-full h-48 md:h-64 rounded-t-lg "
                 />
                 <Link
                   href={`/product/${product.id}`}

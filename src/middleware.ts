@@ -22,9 +22,6 @@ export async function middleware(request: NextRequest) {
   console.log(token?.role, "user Role");
   console.log(token?.role !== "ADMIN", "check if is Admin");
   if (isAdminPage) {
-    if (!isAuth) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
     if (token?.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url)); // Redirect non-admins to home
     }

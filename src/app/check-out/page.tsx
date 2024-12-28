@@ -111,7 +111,7 @@ const CartPage = () => {
                               "relative aspect-square h-36 w-32 min-w-fit mr-2 overflow-hidden rounded"
                             )}>
                             <Image
-                              src={DefualtImage}
+                              src={product.image!}
                               alt="Cart Item"
                               fill
                               className="absolute object-cover "

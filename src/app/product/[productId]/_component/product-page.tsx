@@ -101,7 +101,7 @@ const ProductPage = ({ product }: Product) => {
           <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
             <div className="aspect-square rounded-lg overflow-hidden">
               <Image
-                src={TShirt}
+                src={product.image!}
                 alt={product.title || "product"}
                 width={600}
                 height={600}

@@ -1,6 +1,8 @@
-import { ReactElement, Suspense } from "react";
+import { Package, Plus, ShoppingCart, Wallet } from "lucide-react";
 import Link from "next/link";
-import { Plus, ShoppingCart, Package, Wallet } from "lucide-react";
+import { ReactElement } from "react";
+import { AdminBalance } from "../../../../actions/user/get-admin-balance";
+import Balance from "./_component/balance";
 
 const AdminCard = ({
   title,
@@ -22,8 +24,6 @@ const AdminCard = ({
 );
 
 const AdminPage = async () => {
-  const balance = 5000; // Replace with actual balance fetching logic
-
   return (
     <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
@@ -51,7 +51,9 @@ const AdminPage = async () => {
         <div className="bg-yellow-500 text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-lg">
           <Wallet size={48} />
           <h2 className="mt-4 text-xl font-semibold">Balance</h2>
-          <p className="text-2xl font-bold mt-2">${balance.toLocaleString()}</p>
+          <p className="text-2xl font-bold mt-2">
+            <Balance />
+          </p>
         </div>
       </div>
     </div>

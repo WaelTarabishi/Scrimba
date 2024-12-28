@@ -11,12 +11,21 @@ import toast from "react-hot-toast";
 import { LoginFn } from "../../../../actions/auth/login";
 import { RegisterFn } from "../../../../actions/auth/register";
 import RegisterImage from "../../../../public/loin.png";
+import { useCurrentUser } from "../../../../hooks/use-current-user";
+import { useEffect } from "react";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const user = useCurrentUser();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
   const { mutate: Reigster, isPending } = useMutation({
     mutationKey: ["user-register"],
     mutationFn: async (data: {

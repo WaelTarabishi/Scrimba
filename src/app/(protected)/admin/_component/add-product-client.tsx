@@ -59,6 +59,15 @@ const AddProudctComponentClient = () => {
     }) => AddProductFn(data),
     onSuccess: () => {
       toast.success("Post added succesfully");
+      setTitle("");
+      setDescription("");
+      setPrice("");
+      setSelectedCategory("");
+      setImage("");
+      setSize("");
+      setColor("");
+      // console.log("Product added");
+
     },
     onError: () => {
       toast.error("Some thing went wrong");

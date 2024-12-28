@@ -29,8 +29,8 @@ export const createCheckoutSession = async (cartItems: any) => {
     price_data: {
       currency: "USD",
       product_data: {
-        name: "product",
-        images: [`${process.env.NEXT_PUBLIC_SERVER_URL}/empty-cart.png`],
+        name: item.title,
+        images: [`${item.image}`],
       },
       unit_amount: item.price * 100,
     },

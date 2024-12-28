@@ -10,12 +10,23 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { LoginFn } from "../../../../actions/auth/login";
 import LoginImage from "../../../../public/loin.png";
+import { useCurrentUserRole } from "../../../../hooks/use-current-user-role";
+import { useEffect } from "react";
+import { useCurrentUser } from "../../../../hooks/use-current-user";
 export function LoginForm({
   origin,
   className,
   ...props
 }: React.ComponentProps<"div"> & { origin: string }) {
   const router = useRouter();
+  const user = useCurrentUser();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
+
   console.log(origin);
   const { mutate: Login, isPending } = useMutation({
     mutationKey: ["user-login"],
@@ -26,7 +37,8 @@ export function LoginForm({
       toast.success("Welcome back!", {
         className: "max-w-max",
       });
-      router.push("/");
+      if (origin) router.push(origin);
+      else router.push("/");
       setTimeout(() => window.location.reload(), 1000);
     },
     onError: (error) => {

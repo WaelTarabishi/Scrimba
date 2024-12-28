@@ -345,6 +345,21 @@ const ProductForm = ({
           placeholder="Enter product description"
         />
       </div>
+      <div>
+        <label
+          htmlFor="image"
+          className="block text-sm font-medium text-gray-700 mb-1">
+          Image
+        </label>
+        <Input
+          id="image"
+          name="image"
+          //@ts-ignore
+          value={formData.image}
+          onChange={handleChange}
+          placeholder="Enter product image"
+        />
+      </div>
 
       <Button type="submit" disabled={isEditing} className="text-white">
         {isEditing ? (
