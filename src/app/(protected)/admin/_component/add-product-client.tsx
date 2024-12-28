@@ -74,7 +74,6 @@ const AddProudctComponentClient = () => {
       setSize("");
       setColor("");
       // console.log("Product added");
-
     },
     onError: () => {
       toast.error("Some thing went wrong");
@@ -90,6 +89,7 @@ const AddProudctComponentClient = () => {
           <div>
             <Label htmlFor="title">Product Name</Label>
             <Input
+              required
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -98,6 +98,7 @@ const AddProudctComponentClient = () => {
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea
+              required
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -105,12 +106,12 @@ const AddProudctComponentClient = () => {
           </div>
           <div>
             <Label htmlFor="size">Size</Label>
-            <Select onValueChange={setSize} value={size}>
+            <Select required onValueChange={setSize} value={size}>
               <SelectTrigger>
-                <SelectValue placeholder="Select size" />
+                <SelectValue  placeholder="Select size" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="S">Small</SelectItem>
+                <SelectItem  value="S">Small</SelectItem>
                 <SelectItem value="M">Medium</SelectItem>
                 <SelectItem value="L">Large</SelectItem>
                 <SelectItem value="XL">Extra Large</SelectItem>
@@ -120,7 +121,7 @@ const AddProudctComponentClient = () => {
 
           <div>
             <Label htmlFor="color">Color</Label>
-            <Select onValueChange={setColor} value={color}>
+            <Select required onValueChange={setColor} value={color}>
               <SelectTrigger>
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
@@ -163,6 +164,7 @@ const AddProudctComponentClient = () => {
           <div>
             <Label htmlFor="category">Category</Label>
             <Select
+              required
               onValueChange={setSelectedCategory}
               value={selectedCategory}>
               <SelectTrigger>
@@ -181,6 +183,7 @@ const AddProudctComponentClient = () => {
           <div>
             <Label htmlFor="price">Price</Label>
             <Input
+              required
               id="price"
               type="number"
               value={price}
@@ -191,6 +194,7 @@ const AddProudctComponentClient = () => {
           <div>
             <Label htmlFor="image">Image</Label>
             <Input
+              required
               id="image"
               type="text"
               value={image}
