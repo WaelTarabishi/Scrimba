@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,8 +15,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { AddProductFn } from "../../../../../actions/product/add-product";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useCurrentUserRole } from "../../../../../hooks/use-current-user-role";
 
 const AddProudctComponentClient = () => {
+  const userRole = useCurrentUserRole();
+  const router = useRouter();
+  useEffect(() => {
+    if (userRole === "USER") router.push("/");
+  }, []);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");

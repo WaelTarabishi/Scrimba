@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ProductInterface } from "@/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -43,6 +43,8 @@ import toast from "react-hot-toast";
 import { DeleteProductFn } from "../../../../../../actions/product/delete-product";
 import { EditProductFn } from "../../../../../../actions/product/edit-product";
 import DefaultImage from "../../../../../../public/loin.png";
+import { useCurrentUserRole } from "../../../../../../hooks/use-current-user-role";
+import { useRouter } from "next/navigation";
 const Products = ({ products }: ProductInterface) => {
   const [editingProduct, setEditingProduct] = useState<ProductInterface | null>(
     null
@@ -52,6 +54,11 @@ const Products = ({ products }: ProductInterface) => {
   const handleEdit = (product: ProductInterface) => {
     setEditingProduct(product);
   };
+  const userRole = useCurrentUserRole();
+  const router = useRouter();
+  useEffect(() => {
+    if (userRole === "USER") router.push("/");
+  }, []);
 
   const { mutate: DeleteProduct, isPending: isDeleting } = useMutation({
     mutationKey: ["add-exam"],
@@ -102,8 +109,10 @@ const Products = ({ products }: ProductInterface) => {
               className="hover:bg-white transition-colors duration-200">
               <TableCell className="flex items-center justify-center">
                 <Image
-                  placeholder="blur"
-                  src={DefaultImage}
+                  // placeholder="blur"
+                  src={product.image!}
+                  width={400}
+                  height={400}
                   alt={product?.title ? product?.title : "product"}
                   className="w-16 h-16 object-cover"
                 />

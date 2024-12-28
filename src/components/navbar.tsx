@@ -52,7 +52,33 @@ const Navbar = () => {
     setMounted(true);
   }, []);
 
-  // if (!mounted) return null;
+  if (!mounted)
+    return (
+      <nav className="sticky z-[100] h-14  inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
+        <MaxWidthWrapper>
+          <div className="flex md:px-32 px-20 h-14 items-center justify-between border-b border-zinc-200 ">
+            <Link href={"/"} className="flex z-40 font-semibold">
+              <span className="text-yellow-500">Scrimba.</span>
+            </Link>
+            <div className="flex gap-x-5 items-center justify-center">
+              <Link
+                href={"/configure/upload"}
+                className={cn(
+                  buttonVariants({
+                    size: "sm",
+                    className:
+                      "hidden sm:flex bg-yellow-500  hover:bg-yellow-600 text-white items-center gap-1",
+                  })
+                )}>
+                Shop Now
+                <ArrowRight className="ml-1.5 h-5 w-5" />
+              </Link>
+              <ShoppingCart className="w-5 h-5" />
+            </div>
+          </div>
+        </MaxWidthWrapper>
+      </nav>
+    );
   return (
     <nav className="sticky z-[100] h-14  inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
@@ -243,8 +269,7 @@ const Navbar = () => {
                         ))}
                       </ScrollArea>
                       <SheetFooter className="mt-auto">
-                          <Link
-                            
+                        <Link
                           href={`/check-out`}
                           className={buttonVariants({
                             className: "w-full mt-4 text-white",

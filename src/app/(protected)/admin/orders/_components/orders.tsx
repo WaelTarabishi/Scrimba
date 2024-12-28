@@ -26,11 +26,20 @@ import {
 } from "@/components/ui/table";
 import { OrdersInterface } from "@/types";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { EditOrderFn } from "../../../../../../actions/product/edit-order-status";
+import { useRouter } from "next/navigation";
+import { useCurrentUserRole } from "../../../../../../hooks/use-current-user-role";
 
 const Orders = ({ orders }: OrdersInterface) => {
+
+  const userRole = useCurrentUserRole();
+  const router = useRouter();
+  useEffect(() => {
+    if (userRole === "USER") router.push("/");
+  }, []);
+
   const [orderStatus, setOrderStatus] = useState<
     "awaiting_shipment" | "shipped" | "fullfilled"
   >("awaiting_shipment");
