@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
-import { AddProductFn } from "../../../../../actions/add-product";
+import { AddProductFn } from "../../../../../actions/product/add-product";
 import toast from "react-hot-toast";
 
 const AddProudctComponentClient = () => {
@@ -65,7 +65,7 @@ const AddProudctComponentClient = () => {
     },
   });
   return (
-    <Card>
+    <Card className="p-10 border-none rounded-none">
       <CardHeader>
         <CardTitle>Add New Product</CardTitle>
       </CardHeader>
@@ -109,6 +109,18 @@ const AddProudctComponentClient = () => {
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="black">
+                  <div className="flex items-center">
+                    <div className="w-4 h-4 rounded-full bg-black  mr-2"></div>
+                    black
+                  </div>
+                </SelectItem>
+                <SelectItem value="white">
+                  <div className="flex items-center">
+                    <div className="w-4 h-4 rounded-full bg-white border mr-2"></div>
+                    white
+                  </div>
+                </SelectItem>
                 <SelectItem value="red">
                   <div className="flex items-center">
                     <div className="w-4 h-4 rounded-full bg-red-500 mr-2"></div>

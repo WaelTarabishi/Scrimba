@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { LogoutFn } from "../../actions/auth/logout";
-import { GetUserRole } from "../../actions/get-user";
+import { GetUserRole } from "../../actions/user/get-user";
 import EmptyCart from "../../public/empty-cart.png";
 import DefaultImage from "../../public/t-shirt.jpg";
 import { Button, buttonVariants } from "./ui/button";

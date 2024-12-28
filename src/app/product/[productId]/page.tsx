@@ -1,4 +1,4 @@
-import { GetProductById } from "../../../../actions/get-product";
+import { GetProductById } from "../../../../actions/product/get-product";
 import ProductPage from "./_component/product-page";
 
 const page = async ({

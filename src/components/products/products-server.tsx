@@ -1,4 +1,4 @@
-import { GetProducts } from "../../../actions/get-products";
+import { GetProducts } from "../../../actions/product/get-products";
 import ProductsClientComponent from "./products-client";
 
 const Products = async () => {

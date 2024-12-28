@@ -2,7 +2,7 @@
 
 import { Order } from "@prisma/client";
 import prisma from "../lib/prisma";
-import { GetUser } from "./get-user";
+import { GetUser } from "./user/get-user";
 import { stripe } from "../lib/stripe";
 export const createCheckoutSession = async (cartItems: any) => {
   const user = await GetUser();

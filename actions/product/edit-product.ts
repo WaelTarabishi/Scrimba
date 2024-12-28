@@ -1,8 +1,10 @@
 "use server";
 
-import prisma from "../lib/prisma";
+import { revalidatePath } from "next/cache";
+import prisma from "../../lib/prisma";
 
-export async function AddProductFn({
+export async function EditProductFn({
+  id,
   price,
   description,
   image,
@@ -11,6 +13,7 @@ export async function AddProductFn({
   size,
   title,
 }: {
+    id: string;
   title: string;
   price: number;
   size: string;
@@ -22,7 +25,8 @@ export async function AddProductFn({
   // console.log(price, description, category, color, description, size);
 
   try {
-    await prisma.product.create({
+    await prisma.product.update({
+      where: { id },
       data: {
         price,
         title,
@@ -33,10 +37,10 @@ export async function AddProductFn({
         description,
       },
     });
-    // console.log("helo");
 
-    return { succees: "Product added succesfully" };
-  } catch {
-    throw new Error("Some thing went wrong");
+    revalidatePath("/admin/view-products");
+    return { success: "Product updated successfully" };
+  } catch (error) {
+    throw new Error("Something went wrong while updating the product");
   }
 }

@@ -3,7 +3,7 @@ import { DEFUALT_LOGIN_REDIRECT } from "@/route";
 import { AuthError } from "next-auth";
 import prisma from "../../lib/prisma";
 import { signIn } from "@/auth";
-import { GetUserByEmail } from "../get-user-by-id";
+import { GetUserByEmail } from "../user/get-user-by-id";
 import bcrypt from "bcrypt";
 
 export async function LoginFn({

@@ -45,7 +45,7 @@ const AdminPage = async () => {
         <AdminCard
           title="View Products"
           icon={<Package size={48} />}
-          link="/admin/products"
+          link="/admin/view-products"
           color="red"
         />
         <div className="bg-yellow-500 text-white rounded-lg p-6 flex flex-col items-center justify-center shadow-lg">

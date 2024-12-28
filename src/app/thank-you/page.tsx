@@ -1,5 +1,5 @@
 import React from "react";
-import { GetOrderById } from "../../../actions/get-order-by-id";
+import { GetOrderById } from "../../../actions/product/get-order-by-id";
 import Order from "@/components/order";
 
 const page = async ({

@@ -18,7 +18,9 @@ export async function middleware(request: NextRequest) {
     }
     return null;
   }
-
+  console.log(token, "user Token");
+  console.log(token?.role, "user Role");
+  console.log(token?.role !== "ADMIN", "check if is Admin");
   if (isAdminPage) {
     if (!isAuth) {
       return NextResponse.redirect(new URL("/login", request.url));

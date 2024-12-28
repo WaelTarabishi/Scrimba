@@ -100,7 +100,7 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
 
                   <div className="flex items-center justify-between mt-auto">
                     <p className="text-lg font-bold text-yellow-600">
-                      ${product.price ? product.price.toFixed(2) : "0.00"}
+                      ${product.price ? product.price : "0.00"}
                     </p>
                     <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                       USD
