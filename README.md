@@ -10,16 +10,16 @@ Scrimba is a modern ecommerce platform built with **Next.js 14**, designed to pr
 - 🔄 **Server Actions**: Efficient server-side processing with built-in server actions for faster and cleaner API integration.
 
 ## 🛠️ Technologies Used
--🖥️ Next.js 14: For server-side rendering, client-side interactivity, and Server Actions.
--🛢️ Prisma: For database management and querying.
--🐘 NeonDB PostgreSQL: As the primary database.
--🔐 Auth.js: For authentication.
--💳 Stripe: For payment processing.
+- 🖥️ Next.js 14: For server-side rendering, client-side interactivity, and Server Actions.
+- 🛢️ Prisma: For database management and querying.
+- 🐘 NeonDB PostgreSQL: As the primary database.
+- 🔐 Auth.js: For authentication.
+- 💳 Stripe: For payment processing.
 
-##🚧 Future Enhancements
--🤖 Adding a product recommendation system.
--📱 Enhancing mobile responsiveness.
--🌍 Expanding payment options.
+## 🚧 Future Enhancements
+- 🤖 Adding a product recommendation system.
+- 📱 Enhancing mobile responsiveness.
+- 🌍 Expanding payment options.
 
 ##This project is deployed on Vercel. You can view the live version here:
 
