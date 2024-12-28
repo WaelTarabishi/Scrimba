@@ -1,18 +1,7 @@
-"use client";
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import { useSearchParams } from "next/navigation";
-import { OrderInterface } from "../types";
-import useProductStore from "@/store/products-store";
-import { useEffect } from "react";
-const Order = ({ order }: OrderInterface) => {
-  const { removeAllProducts } = useProductStore();
-  const serarchParams = useSearchParams();
-  const orderId = serarchParams.get("orderId") || "";
-
-  useEffect(() => {
-    removeAllProducts();
-  }, [orderId]);
-
+const ThankYouPageSkeleton = () => {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
@@ -22,12 +11,13 @@ const Order = ({ order }: OrderInterface) => {
             Your style is on its way!
           </h1>
           <p className="mt-2 text-base text-zinc-500">
-            We&apos;ve received your order and are preparing your fabulous items.
+            We&apos;ve received your order and are preparing your fabulous
+            items.
           </p>
 
           <div className="mt-12 text-sm font-medium">
             <p className="text-zinc-900">Order number</p>
-            <p className="mt-2 text-zinc-500">{orderId}</p>
+            <Skeleton className="mt-2 h-4 w-32" />
           </div>
         </div>
 
@@ -52,14 +42,9 @@ const Order = ({ order }: OrderInterface) => {
               <p className="font-medium text-gray-900">Shipping address</p>
               <div className="mt-2 text-zinc-700">
                 <address className="not-italic">
-                  <span className="block">{order?.shippingAddress?.name}</span>
-                  <span className="block">
-                    {order?.shippingAddress?.street}
-                  </span>
-                  <span className="block">
-                    {order?.shippingAddress?.postalCode}{" "}
-                    {order?.shippingAddress?.city}
-                  </span>
+                  <Skeleton className="h-4 w-full mb-1" />
+                  <Skeleton className="h-4 w-full mb-1" />
+                  <Skeleton className="h-4 w-3/4" />
                 </address>
               </div>
             </div>
@@ -67,12 +52,9 @@ const Order = ({ order }: OrderInterface) => {
               <p className="font-medium text-gray-900">Billing address</p>
               <div className="mt-2 text-zinc-700">
                 <address className="not-italic">
-                  <span className="block">{order?.billingAddress?.name}</span>
-                  <span className="block">{order?.billingAddress?.street}</span>
-                  <span className="block">
-                    {order?.billingAddress?.postalCode}{" "}
-                    {order?.billingAddress?.city}
-                  </span>
+                  <Skeleton className="h-4 w-full mb-1" />
+                  <Skeleton className="h-4 w-full mb-1" />
+                  <Skeleton className="h-4 w-3/4" />
                 </address>
               </div>
             </div>
@@ -96,7 +78,7 @@ const Order = ({ order }: OrderInterface) => {
         <div className="space-y-6 border-t border-zinc-200 pt-10 text-sm">
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Subtotal</p>
-            <p className="text-zinc-700">{order?.amount}$</p>
+            <Skeleton className="h-4 w-16" />
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Shipping</p>
@@ -104,9 +86,7 @@ const Order = ({ order }: OrderInterface) => {
           </div>
           <div className="flex justify-between">
             <p className="font-medium text-zinc-900">Total</p>
-            <p className="text-zinc-700">
-              {order?.amount ? order?.amount + 10 : 10}$
-            </p>
+            <Skeleton className="h-4 w-16" />
           </div>
         </div>
       </div>
@@ -114,4 +94,4 @@ const Order = ({ order }: OrderInterface) => {
   );
 };
 
-export default Order;
+export default ThankYouPageSkeleton;
