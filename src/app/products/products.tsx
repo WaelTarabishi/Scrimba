@@ -10,6 +10,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
 import MaxWidthWrapper from "@/lib/max-widht-wrapper";
 import { cn } from "@/lib/utils";
@@ -22,14 +31,18 @@ import Link from "next/link";
 import "rc-slider/assets/index.css";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { GetProducts } from "../../../actions/product/get-products";
+import {
+  GetProducts,
+  GetProductsCount,
+} from "../../../actions/product/get-products";
 import TShirt from "../../../public/t-shirt.jpg";
-const ProductsPage = ({ products }: ProductInterface) => {
-  const { addProduct } = useProductStore();
+import { Skeleton } from "@/components/ui/skeleton";
+const ProductsPage = () => {
   const [values, setValues] = useState([0, 999]);
   const [color, setColor] = useState("");
   const [name, setName] = useState("");
   const [size, setSize] = useState("");
+  const [page, setPage] = useState<number>(1);
   const [isMounted, setIsMounted] = useState<boolean>();
   const {
     addProducts,
@@ -39,6 +52,9 @@ const ProductsPage = ({ products }: ProductInterface) => {
     size: sizeStore,
     color: colorStore,
     name: nameStore,
+    page: pageStore,
+    setPage: setPageStore,
+    addProduct,
   } = useProductStore();
 
   const { data, isLoading } = useQuery({
@@ -47,10 +63,27 @@ const ProductsPage = ({ products }: ProductInterface) => {
       color ? color : colorStore,
       name ? name : nameStore,
       size ? size : sizeStore,
+      page ? page : pageStore,
     ],
     queryFn: () =>
       GetProducts({
         take: 6,
+        skip: ((page ? page : pageStore) - 1) * 6,
+        color: color ? color : colorStore ? colorStore : undefined,
+        name: name ? name : nameStore ? nameStore : undefined,
+        size: size ? size : sizeStore ? sizeStore : undefined,
+      }),
+  });
+  const { data: count, isLoading: isCounting } = useQuery({
+    queryKey: [
+      "count",
+      color ? color : colorStore,
+      name ? name : nameStore,
+      size ? size : sizeStore,
+      page ? page : pageStore,
+    ],
+    queryFn: () =>
+      GetProductsCount({
         color: color ? color : colorStore ? colorStore : undefined,
         name: name ? name : nameStore ? nameStore : undefined,
         size: size ? size : sizeStore ? sizeStore : undefined,
@@ -62,11 +95,13 @@ const ProductsPage = ({ products }: ProductInterface) => {
   }, [data]);
 
   const [productData, setProductData] = useState(data);
+  const toatalPages = Math.ceil(count! / 6);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
   if (!isMounted) return <ProductsPageSkeleton />;
+  console.log(toatalPages);
   return (
     <MaxWidthWrapper className="mx-auto w-full max-w-screen-2xl px-2.5 my-10 md:px1-0 xl:px-24">
       <div className={`flex flex-col xl:flex-row  gap-x-4 h-full        `}>
@@ -171,73 +206,138 @@ const ProductsPage = ({ products }: ProductInterface) => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-x-2 gap-y-4">
               <>
-                {productData?.map((product) => (
-                  <div key={product.id} className="relative  p-2  ">
-                    <div className="h-65 flex flex-col bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-                      <div className="absolute top-4 right-4 z-10">
-                        <Button
-                          onClick={() => {
-                            addProduct({
-                              id: product.id,
-                              category: product.category,
-                              color: product.color,
-                              description: product.description,
-                              title: product.title,
-                              image: product.image,
-                              price: product.price,
-                              size: product.size,
-                            });
-                            toast.success("Product added successfully!", {
-                              icon: <CheckCircle className="text-yellow-500" />,
-                            });
-                          }}
-                          size={"icon"}
-                          className="bg-yellow-500 p-1 rounded-full text-white hover:bg-yellow-600 transition-colors duration-300">
-                          <ShoppingCartIcon />
-                        </Button>
-                      </div>
-                      <div className="absolute select-none top-4 left-4 z-10 flex space-x-2">
-                        <span className="px-2 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium backdrop-blur-sm">
-                          {product.color}
-                        </span>
-                        <span className="px-2 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium backdrop-blur-sm">
-                          {product.size}
-                        </span>
-                      </div>
-                      <Image
-                        src={product.image ? product.image : TShirt}
-                        width={500}
-                        height={500}
-                        alt={product.title ? product.title : "product"}
-                        className="object-cover w-full h-48 md:h-64 rounded-t-lg "
-                      />
-                      <Link
-                        href={`/product/${product.id}`}
-                        className="flex flex-col h-full p-4 group transition-all duration-300 hover:bg-gray-50 rounded-lg">
-                        <div className="flex-grow">
-                          <h3 className="text-lg font-semibold text-gray-800 group-hover:text-yellow-600 group-hover:underline-offset-4 group-hover:underline transition-colors duration-300 line-clamp-2 mb-2">
-                            {product.title}
-                          </h3>
-                          <p className="text-sm text-gray-600 truncate mb-4">
-                            {product.description}
-                          </p>
+                {productData?.length! > 0 ? (
+                  productData?.map((product) => (
+                    <div key={product.id} className="relative  p-2  ">
+                      <div className="h-65 flex flex-col bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+                        <div className="absolute top-4 right-4 z-10">
+                          <Button
+                            onClick={() => {
+                              addProduct({
+                                id: product.id,
+                                category: product.category,
+                                color: product.color,
+                                description: product.description,
+                                title: product.title,
+                                image: product.image,
+                                price: product.price,
+                                size: product.size,
+                              });
+                              toast.success("Product added successfully!", {
+                                icon: (
+                                  <CheckCircle className="text-yellow-500" />
+                                ),
+                              });
+                            }}
+                            size={"icon"}
+                            className="bg-yellow-500 p-1 rounded-full text-white hover:bg-yellow-600 transition-colors duration-300">
+                            <ShoppingCartIcon />
+                          </Button>
                         </div>
-
-                        <div className="flex items-center justify-between mt-auto">
-                          <p className="text-lg font-bold text-yellow-600">
-                            ${product.price ? product.price : "0.00"}
-                          </p>
-                          <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                            USD
+                        <div className="absolute select-none top-4 left-4 z-10 flex space-x-2">
+                          <span className="px-2 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium backdrop-blur-sm">
+                            {product.color}
+                          </span>
+                          <span className="px-2 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium backdrop-blur-sm">
+                            {product.size}
                           </span>
                         </div>
-                      </Link>
+                        <Image
+                          src={
+                            product.image?.startsWith("https")
+                              ? product.image
+                              : TShirt
+                          }
+                          width={500}
+                          height={500}
+                          alt={product.title ? product.title : "product"}
+                          className="object-cover w-full h-48 md:h-64 rounded-t-lg "
+                        />
+                        <Link
+                          href={`/product/${product.id}`}
+                          className="flex flex-col h-full p-4 group transition-all duration-300 hover:bg-gray-50 rounded-lg">
+                          <div className="">
+                            <h3 className="text-lg font-semibold text-gray-800   truncate group-hover:text-yellow-600 group-hover:underline-offset-4 group-hover:underline transition-colors duration-300 line-clamp-2 mb-2">
+                              {product.title}
+                            </h3>
+                            <p className="text-sm text-gray-600 truncate mb-4">
+                              {product.description}
+                            </p>
+                          </div>
+
+                          <div className="flex items-center justify-between mt-auto">
+                            <p className="text-lg font-bold text-yellow-600">
+                              ${product.price ? product.price : "0.00"}
+                            </p>
+                            <span className="text-sm font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                              USD
+                            </span>
+                          </div>
+                        </Link>
+                      </div>
                     </div>
+                  ))
+                ) : (
+                  <div className="flex flex-col col-span-3 w-full  mt-20 items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-16 w-16 "
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                      />
+                    </svg>
+                    <h3 className="mt-4 text-lg font-semibold ">
+                      No results found
+                    </h3>
                   </div>
-                ))}
+                )}
               </>
             </div>
           )}
+          <div className="  mt-5">
+            <Pagination>
+              <PaginationContent className="flex text-xs md:flex-row flex-col">
+                {isCounting ? (
+                  <div className="grid grid-cols-3  gap-x-3">
+                    <Skeleton className="h-9 w-9" />
+                    <Skeleton className="h-9 w-9" />
+                    <Skeleton className="h-9 w-9" />
+                  </div>
+                ) : (
+                  <>
+                    {Array.from({ length: toatalPages }, (_, i) => i + 1).map(
+                      (pageNumber) => (
+                        <PaginationItem
+                          key={pageNumber}
+                          className={cn(
+                            "mr-2 rounded-lg cursor-pointer transition-colors duration-300",
+                            pageNumber === page
+                              ? "bg-primary text-white"
+                              : "bg-muted hover:bg-primary/50 text-muted-foreground hover:text-primary-foreground"
+                          )}>
+                          <PaginationLink
+                            onClick={() => {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                              setPage(pageNumber);
+                              setPageStore(pageNumber);
+                            }}
+                            className="flex items-center justify-center w-8 h-8 rounded-lg">
+                            {pageNumber}
+                          </PaginationLink>
+                        </PaginationItem>
+                      )
+                    )}
+                  </>
+                )}
+              </PaginationContent>
+            </Pagination>
+          </div>
         </div>
       </div>
     </MaxWidthWrapper>

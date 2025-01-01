@@ -30,6 +30,7 @@ interface ProductStore {
   name: string;
   size: string;
   color: string;
+  page: number;
   addProduct: (product: Product) => void;
   removeProduct: (id: string) => void;
   increaseCount: (productId: string) => void;
@@ -37,6 +38,7 @@ interface ProductStore {
   addProducts: (products: Products) => void;
   setName: (name: string) => void;
   setSize: (size: string) => void;
+  setPage: (page: number) => void;
   setColor: (color: string) => void;
   getTotalPrice: () => number;
   removeAllProducts: () => void;
@@ -51,8 +53,12 @@ const useProductStore = create<ProductStore>()(
       color: "",
       size: "",
       name: "",
+      page: 1,
       setColor: (color: string) => {
         set({ color });
+      },
+      setPage: (page: number) => {
+        set({ page });
       },
       setSize: (size: string) => {
         set({ size });

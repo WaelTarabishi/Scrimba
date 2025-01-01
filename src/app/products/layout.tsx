@@ -1,10 +1,7 @@
-import ThankYouPageSkeleton from "@/components/thank-you-skeleton";
-import { Suspense } from "react";
-
-export default async function searchLayout({
+export default async function productsPageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <Suspense fallback={<ThankYouPageSkeleton />}> {children}</Suspense>;
+  return <> {children}</>;
 }

@@ -80,7 +80,9 @@ const ProductsClientComponent = ({ products }: ProductInterface) => {
                   </span>
                 </div>
                 <Image
-                  src={product.image ? product.image : TShirt }
+                  src={
+                    product.image?.startsWith("https") ? product.image : TShirt
+                  }
                   width={500}
                   height={500}
                   alt={product.title ? product.title : "product"}

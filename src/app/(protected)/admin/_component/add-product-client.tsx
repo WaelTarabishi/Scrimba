@@ -108,10 +108,10 @@ const AddProudctComponentClient = () => {
             <Label htmlFor="size">Size</Label>
             <Select required onValueChange={setSize} value={size}>
               <SelectTrigger>
-                <SelectValue  placeholder="Select size" />
+                <SelectValue placeholder="Select size" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem  value="S">Small</SelectItem>
+                <SelectItem value="S">Small</SelectItem>
                 <SelectItem value="M">Medium</SelectItem>
                 <SelectItem value="L">Large</SelectItem>
                 <SelectItem value="XL">Extra Large</SelectItem>
@@ -202,17 +202,19 @@ const AddProudctComponentClient = () => {
             />
           </div>
 
-          <Button
-            disabled={isPending}
-            onClick={handleAddProduct}
-            className="text-white">
-            {isPending ? (
-              <span
-                className={`loader  inline-block h-[1em] w-[1em] border-[3px] border-white border-t-transparent rounded-full animate-spin`}></span>
-            ) : (
-              "Add Product"
-            )}
-          </Button>
+          <div className="w-full  flex justify-end items-end">
+            <Button
+              disabled={isPending}
+              onClick={handleAddProduct}
+              className="text-white  ">
+              {isPending ? (
+                <span
+                  className={`loader  inline-block h-[1em] w-[1em] border-[3px] border-white border-t-transparent rounded-full animate-spin`}></span>
+              ) : (
+                "Add Product"
+              )}
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

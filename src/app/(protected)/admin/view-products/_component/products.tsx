@@ -89,7 +89,7 @@ const Products = ({ products }: ProductInterface) => {
   };
 
   return (
-    <div className="container h-screen mx-auto p-10">
+    <div className="container h-full mb-20 mx-auto p-10 ">
       <h1 className="text-2xl font-bold mb-4">Product Management</h1>
       <Table className="p-5">
         <TableHeader className="bg-primary/10 ">
@@ -110,7 +110,11 @@ const Products = ({ products }: ProductInterface) => {
               <TableCell className="flex items-center justify-center">
                 <Image
                   // placeholder="blur"
-                  src={product.image!}
+                  src={
+                    product.image?.startsWith("https")
+                      ? product.image
+                      : DefaultImage
+                  }
                   width={400}
                   height={400}
                   alt={product?.title ? product?.title : "product"}
