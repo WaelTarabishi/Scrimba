@@ -27,7 +27,7 @@ export default async function Home() {
               })}>
               Shop Now
             </Link>
-            <Button variant={"secondary"}>
+            <Button disabled={true} variant={"secondary"}>
               <div className="flex items-center justify-center gap-2">
                 <span>Our Style Guide</span>
                 <ChevronRight className="h-5 w-5 mt-[4px]" />

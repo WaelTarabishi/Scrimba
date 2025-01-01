@@ -1,11 +1,8 @@
 "use client";
 import { Package, Plus, ShoppingCart, Wallet } from "lucide-react";
 import Link from "next/link";
-import { ReactElement, useEffect } from "react";
-import { AdminBalance } from "../../../../actions/user/get-admin-balance";
+import { ReactElement } from "react";
 import Balance from "./_component/balance";
-import { useCurrentUserRole } from "../../../../hooks/use-current-user-role";
-import { useRouter } from "next/navigation";
 
 const AdminCard = ({
   title,
@@ -27,11 +24,6 @@ const AdminCard = ({
 );
 
 const AdminPage = () => {
-  const userRole = useCurrentUserRole();
-  const router = useRouter();
-  useEffect(() => {
-    if (userRole === "USER") router.push("/");
-  }, []);
   return (
     <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">

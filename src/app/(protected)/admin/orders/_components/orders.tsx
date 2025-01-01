@@ -33,7 +33,6 @@ import { useRouter } from "next/navigation";
 import { useCurrentUserRole } from "../../../../../../hooks/use-current-user-role";
 
 const Orders = ({ orders }: OrdersInterface) => {
-
   const userRole = useCurrentUserRole();
   const router = useRouter();
   useEffect(() => {
@@ -98,7 +97,12 @@ const Orders = ({ orders }: OrdersInterface) => {
                   : "FullFilled"}
               </TableCell>
               <TableCell>
-                {new Date(order.createdAt).toLocaleDateString()}
+                {new Date(order.createdAt).toLocaleDateString("en-EG", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  hour: "numeric",
+                })}
               </TableCell>
               <TableCell>
                 <Dialog>

@@ -12,16 +12,33 @@ interface Product {
   image: string | null;
   count?: number;
 }
-
+interface Products {
+  id: string;
+  title: string | null;
+  price: number | null;
+  color: string | null;
+  size: string | null;
+  category: string | null;
+  description: string | null;
+  image: string | null;
+  count?: number;
+}
+[];
 interface ProductStore {
   products: Product[];
-
+  searchedProducts: Product[];
+  name: string;
+  size: string;
+  color: string;
   addProduct: (product: Product) => void;
   removeProduct: (id: string) => void;
   increaseCount: (productId: string) => void;
   decreaseCount: (productId: string) => void;
+  addProducts: (products: Products) => void;
+  setName: (name: string) => void;
+  setSize: (size: string) => void;
+  setColor: (color: string) => void;
   getTotalPrice: () => number;
-
   removeAllProducts: () => void;
 }
 
@@ -29,7 +46,29 @@ const useProductStore = create<ProductStore>()(
   persist(
     (set, get) => ({
       products: [],
+      searchedProducts: [],
 
+      color: "",
+      size: "",
+      name: "",
+      setColor: (color: string) => {
+        set({ color });
+      },
+      setSize: (size: string) => {
+        set({ size });
+      },
+      setName: (name: string) => {
+        set({ name });
+      },
+      addProducts: (products) => {
+        {
+          {
+            set(() => ({
+              searchedProducts: [products],
+            }));
+          }
+        }
+      },
       addProduct: (product) =>
         set((state) => {
           const existingProductIndex = state.products.findIndex(

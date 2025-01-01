@@ -1,11 +1,15 @@
 import React from "react";
 import { Skeleton } from "./ui/skeleton";
+import { cn } from "@/lib/utils";
 
-const ProductSliderSkeleton = () => {
+const ProductSliderSkeleton = ({ items }: { items?: number }) => {
   return (
-    <div className="container mx-auto px-4 p-5 mt-5 w-full">
+    <div
+      className={cn(`container mx-auto px-4 p-5 mt-5 w-full`, {
+        "p-0 mt-0": items === 6,
+      })}>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        {[...Array(3)].map((_, index) => (
+        {[...Array(items ? items : 3)].map((_, index) => (
           <div key={index} className="relative group p-2 cursor-pointer">
             <div className="h-65 flex flex-col bg-white rounded-lg border  border-gray-100  overflow-hidden">
               <div className="absolute top-4 right-4 z-10">

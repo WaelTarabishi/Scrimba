@@ -1,20 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
-import authConfig from "./auth.config";
-import NextAuth from "next-auth";
+import { NextResponse } from "next/server";
 import { auth } from "./auth";
-import { UserRole } from "@prisma/client";
 const protectedRoutes = [
   "/admin",
-  "/account",
-  "/dashboard/services",
-  "/dashboard/users",
+  "/admin/view-products",
+  "/admin/orders",
+  "/admin/add-products",
 ];
 const authRoutes = ["/login", "/register"];
 
 export default auth(async function middleware(req) {
   const { auth } = req;
-  let isAuth = auth?.user;
-  let userRole = auth?.user.role;
+  const isAuth = auth?.user;
+  const userRole = auth?.user.role;
   const { pathname } = req.nextUrl;
 
   protectedRoutes.some((route) => console.log(route, "route"));
@@ -32,6 +29,4 @@ export default auth(async function middleware(req) {
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
-
-
 });

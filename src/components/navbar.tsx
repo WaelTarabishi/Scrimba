@@ -43,6 +43,7 @@ const Navbar = () => {
     queryKey: ["user-role"],
     queryFn: () => GetUserRole(),
     enabled: mounted,
+    refetchOnWindowFocus: false,
   });
 
   const isUser = !!userRole;
@@ -62,7 +63,7 @@ const Navbar = () => {
             </Link>
             <div className="flex gap-x-5 items-center justify-center">
               <Link
-                href={"/configure/upload"}
+                href={"/products"}
                 className={cn(
                   buttonVariants({
                     size: "sm",
@@ -135,7 +136,7 @@ const Navbar = () => {
               </>
             )}
             <Link
-              href={"/configure/upload"}
+              href={"/products"}
               className={cn(
                 buttonVariants({
                   size: "sm",
@@ -172,7 +173,7 @@ const Navbar = () => {
                         Your Cart is Empty
                       </div>
                       <Link
-                        href={`/`}
+                        href={`/products`}
                         className={buttonVariants({
                           variant: "link",
                           size: "sm",
