@@ -21,13 +21,6 @@ export function LoginForm({
   const router = useRouter();
   const user = useCurrentUser();
 
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  }, [user]);
-
-  console.log(origin);
   const { mutate: Login, isPending } = useMutation({
     mutationKey: ["user-login"],
     mutationFn: async (data: { email: string; password: string }) =>

@@ -4,7 +4,7 @@ import { AuthError } from "next-auth";
 import prisma from "../../lib/prisma";
 import { signIn } from "@/auth";
 import { GetUserByEmail } from "../user/get-user-by-id";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export async function LoginFn({
   email,
