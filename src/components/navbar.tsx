@@ -21,6 +21,7 @@ import DefaultImage from "../../public/t-shirt.jpg";
 import { Button, buttonVariants } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { useRouter } from "next/navigation";
+
 const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   const {
@@ -82,8 +83,8 @@ const Navbar = () => {
     );
   return (
     <nav className="sticky z-[100] h-14  inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
-      <MaxWidthWrapper>
-        <div className="flex md:px-32 px-20 h-14 items-center justify-between border-b border-zinc-200 ">
+      <div className="">
+        <div className="flex md:px-32 px-10 h-14 items-center justify-between border-b border-zinc-200 ">
           <Link href={"/"} className="flex z-40 font-semibold">
             <span className="text-yellow-500">Scrimba.</span>
           </Link>
@@ -213,7 +214,7 @@ const Navbar = () => {
                                   href={`/product/${product.id}`}
                                   className="relative aspect-square h-36 w-32 min-w-fit overflow-hidden rounded">
                                   <Image
-                                    src={product.image!}
+                                    src={product.image?.startsWith('http')? product.image : DefaultImage}
                                     alt={
                                       product.title
                                         ? product.title
@@ -285,7 +286,7 @@ const Navbar = () => {
             </>
           </div>
         </div>
-      </MaxWidthWrapper>
+      </div>
     </nav>
   );
 };
